@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="312.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="timetrackclient.FXMLAddUserController">
+   <children>
+      <Button fx:id="btnAddUser" layoutX="83.0" layoutY="224.0" mnemonicParsing="false" onAction="#add">
+         <tooltip>
+            <Tooltip text="Add" />
+         </tooltip>
+      </Button>
+      <Button fx:id="btnCancel" layoutX="232.0" layoutY="224.0" mnemonicParsing="false" onAction="#close">
+         <tooltip>
+            <Tooltip text="Cancel" />
+         </tooltip>
+      </Button>
+      <PasswordField fx:id="ptxtPassword" layoutX="91.0" layoutY="79.0" promptText="Password" AnchorPane.leftAnchor="91.0" AnchorPane.rightAnchor="90.0">
+         <tooltip>
+            <Tooltip text="Password" />
+         </tooltip>
+      </PasswordField>
+      <TextField fx:id="txtUsername" layoutX="91.0" layoutY="30.0" promptText="Username" AnchorPane.leftAnchor="91.0" AnchorPane.rightAnchor="90.0">
+         <tooltip>
+            <Tooltip text="Username" />
+         </tooltip>
+      </TextField>
+      <TextField fx:id="txtName" layoutX="91.0" layoutY="131.0" promptText="Name" AnchorPane.leftAnchor="91.0" AnchorPane.rightAnchor="90.0">
+         <tooltip>
+            <Tooltip text="Name" />
+         </tooltip>
+      </TextField>
+      <Label fx:id="lblError" layoutX="151.0" layoutY="188.0" textFill="RED" />
+   </children>
+</AnchorPane>

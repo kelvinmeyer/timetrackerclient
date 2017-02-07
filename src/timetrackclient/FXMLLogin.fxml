@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="timetrackclient.FXMLLoginController">
+   <children>
+      <Button id="btnLogin" fx:id="btnLogin" layoutX="63.0" layoutY="131.0" mnemonicParsing="false" onAction="#Login" onKeyPressed="#Login" text="Login" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="191.0" />
+      <Button id="btnCancel" fx:id="btnCancel" layoutX="179.0" layoutY="131.0" mnemonicParsing="false" onAction="#Cancel" text="Cancel" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="69.0" />
+      <CheckBox fx:id="cbRemember" layoutX="49.0" layoutY="100.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="194.0" text="Remeber Me" />
+      <PasswordField id="ptxtPassword" fx:id="ptxtPassword" layoutX="49.0" layoutY="65.0" prefHeight="25.0" prefWidth="194.0" promptText="Password" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="65.0" />
+      <TextField id="txtUsername" fx:id="txtUsername" layoutX="49.0" layoutY="27.0" prefHeight="25.0" prefWidth="194.0" promptText="Username" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="27.0" />
+      <Label id="lblError" fx:id="lblError" layoutX="91.0" layoutY="169.0" prefHeight="17.0" prefWidth="118.0" text="Invalid Login" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="91.0" AnchorPane.rightAnchor="91.0" />
+   </children>
+</AnchorPane>

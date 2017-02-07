@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="509.0" prefWidth="379.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="timetrackclient.FXMLAddJobController">
+   <children>
+      <TextField fx:id="txtTitle" layoutX="115.0" layoutY="52.0" promptText="Title" />
+      <ComboBox fx:id="cbClients" layoutX="115.0" layoutY="112.0" prefWidth="150.0" />
+      <TextArea fx:id="txtaDescription" layoutX="48.0" layoutY="255.0" prefHeight="76.0" prefWidth="285.0" promptText="Description" />
+      <TextField fx:id="txtInvNum" layoutX="115.0" layoutY="180.0" promptText="Invoice number" />
+      <Label fx:id="lblError" layoutX="176.0" layoutY="377.0" textFill="RED" />
+      <Button fx:id="btnAdd" layoutX="107.0" layoutY="431.0" mnemonicParsing="false" onAction="#add" />
+      <Button fx:id="btnCancel" layoutX="256.0" layoutY="431.0" mnemonicParsing="false" onAction="#close" />
+   </children>
+</AnchorPane>

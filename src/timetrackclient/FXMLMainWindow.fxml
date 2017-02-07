@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@fxmlMain.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="timetrackclient.FXMLMainWindowController">
+  <tabs>
+    <Tab text="Jobs">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ToolBar orientation="VERTICAL" prefHeight="371.0" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <Button fx:id="btnAddJob" mnemonicParsing="false" onAction="#addJob">
+                           <tooltip>
+                              <Tooltip text="New Job" />
+                           </tooltip></Button>
+                        <Separator />
+                        <Button fx:id="btnReOpen" mnemonicParsing="false" onAction="#reopenJob" />
+                    </items>
+                  </ToolBar>
+                  <FlowPane fx:id="fp" layoutX="50.0" prefHeight="200.0" prefWidth="552.0" style="-fx-background-color: #c1c1c1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding>
+                  </FlowPane>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Times">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ToolBar prefHeight="50.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <Label text="Sort by" />
+                        <ChoiceBox fx:id="cbSort" prefWidth="150.0" />
+                        <Label text="Filter" />
+                        <ChoiceBox fx:id="cbFilter" prefWidth="150.0" />
+                        <HBox fx:id="spacer" />
+                      <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#search" />
+                    </items>
+                  </ToolBar>
+                  <TableView fx:id="timesTable" layoutY="40.0" prefHeight="330.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                    <columns>
+                      <TableColumn fx:id="clmDate" prefWidth="75.0" text="Date" />
+                      <TableColumn fx:id="clmTime" prefWidth="75.0" text="Time" />
+                        <TableColumn fx:id="clmUser" prefWidth="75.0" text="User" />
+                        <TableColumn fx:id="clmJob" prefWidth="75.0" text="Job" />
+                        <TableColumn fx:id="clmComment" maxWidth="1.7976931348623157E308" prefWidth="299.0" text="Comment" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Clients">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ToolBar orientation="VERTICAL" prefHeight="373.0" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <Button fx:id="btnAddClient" mnemonicParsing="false" onAction="#addClient">
+                           <tooltip>
+                              <Tooltip text="Add client" />
+                           </tooltip></Button>
+                        <Button fx:id="btnDeleteClient" mnemonicParsing="false" onAction="#deleteClient">
+                           <tooltip>
+                              <Tooltip text="Delete client" />
+                           </tooltip></Button>
+                        <Separator />
+                        <Button fx:id="btnImportClients" mnemonicParsing="false" onAction="#importClients">
+                           <tooltip>
+                              <Tooltip text="Import" />
+                           </tooltip></Button>
+                    </items>
+                  </ToolBar>
+                  <Label layoutX="50.0" text="Clients">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="clients" layoutX="50.0" layoutY="14.0" prefHeight="350.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="21.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab text="Users">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ToolBar orientation="VERTICAL" prefHeight="371.0" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <Button fx:id="btnAddUser" cancelButton="true" mnemonicParsing="false" onAction="#addUser">
+                           <tooltip>
+                              <Tooltip text="Add" />
+                           </tooltip></Button>
+                        <Button fx:id="btnDeleteUser" mnemonicParsing="false" onAction="#deleteUser">
+                           <tooltip>
+                              <Tooltip text="Delete" />
+                           </tooltip></Button>
+                    </items>
+                  </ToolBar>
+                  <ListView fx:id="users" layoutX="50.0" layoutY="21.0" prefHeight="350.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="21.0" />
+                  <Label layoutX="49.0" prefHeight="22.0" prefWidth="295.0" text="Users">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab text="Settings">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="cbRemeber" layoutX="53.0" layoutY="40.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="128.0" text="Remeber The User" />
+                  <TextField fx:id="txtHost" layoutX="53.0" layoutY="70.0" promptText="Server address" />
+                  <Button fx:id="btnChangePassword" layoutX="54.0" layoutY="154.0" mnemonicParsing="false" onAction="#changePassword" prefHeight="25.0" prefWidth="148.0" text="Change Password" />
+                  <TextField fx:id="txtPort" layoutX="54.0" layoutY="110.0" promptText="port" />
+                  <Button fx:id="btnSaveSettings" layoutX="54.0" layoutY="292.0" mnemonicParsing="false" onAction="#SaveSettuings" text="Save" />
+                  <Label fx:id="lblVersion" layoutX="53.0" layoutY="200.0" text="Version: " />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

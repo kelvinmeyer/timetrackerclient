@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="457.0" prefWidth="399.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="timetrackclient.FXMLEditJobController">
+   <children>
+      <TextField fx:id="txtTitle" layoutX="125.0" layoutY="64.0" promptText="Title" />
+      <TextField fx:id="txtInvNum" layoutX="125.0" layoutY="124.0" promptText="Invoice number" />
+      <TextArea fx:id="txtaDescription" layoutX="68.0" layoutY="186.0" prefHeight="109.0" prefWidth="287.0" promptText="Description" />
+      <Button fx:id="btnEdit" layoutX="117.0" layoutY="357.0" mnemonicParsing="false" onAction="#update" />
+      <Button fx:id="btnCancel" layoutX="266.0" layoutY="357.0" mnemonicParsing="false" onAction="#cancel" />
+   </children>
+</AnchorPane>

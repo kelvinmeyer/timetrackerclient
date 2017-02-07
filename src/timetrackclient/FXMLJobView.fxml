@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="timetrackclient.FXMLJobViewController">
+   <children>
+      <ToolBar orientation="VERTICAL" prefHeight="400.0" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <Button fx:id="btnStart" mnemonicParsing="false" onAction="#start" />
+            <Button fx:id="btnPause" mnemonicParsing="false" />
+            <Separator />
+            <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editWindow" />
+        </items>
+      </ToolBar>
+      <TableView fx:id="timesTable" layoutX="50.0" layoutY="200.0" prefHeight="200.0" prefWidth="455.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="clmDate" prefWidth="75.0" text="Date" />
+          <TableColumn fx:id="clmTime" prefWidth="75.0" text="Time" />
+            <TableColumn fx:id="clmStartTime" prefWidth="75.0" text="Start Time" />
+            <TableColumn fx:id="clmEndTime" prefWidth="75.0" text="End Time" />
+            <TableColumn fx:id="clmUser" prefWidth="75.0" text="User" />
+            <TableColumn fx:id="clmComment" prefWidth="75.0" text="Comment" />
+        </columns>
+      </TableView>
+      <ToolBar layoutX="50.0" layoutY="165.0" prefHeight="25.0" prefWidth="455.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0">
+        <items>
+            <Label text="Sort" />
+            <ChoiceBox fx:id="cbSort" prefWidth="150.0" />
+            <Label text="filter" />
+            <ChoiceBox fx:id="cbFilter" prefWidth="150.0" />
+            <HBox fx:id="spacer" />
+            <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#search" />
+        </items>
+      </ToolBar>
+      <AnchorPane layoutX="50.0" prefHeight="165.0" prefWidth="455.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="lblTitle" layoutX="14.0" layoutY="14.0" text="Label" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblClient" layoutX="14.0" layoutY="49.0" text="Label" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="49.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblStartDate" layoutX="413.0" layoutY="19.0" text="Label" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblInvNum" layoutX="411.0" layoutY="51.0" text="Label" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="40.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="txtaDescr" editable="false" layoutX="14.0" layoutY="69.0" prefHeight="79.0" prefWidth="271.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

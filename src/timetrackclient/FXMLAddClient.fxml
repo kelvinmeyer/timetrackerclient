@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="430.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="timetrackclient.FXMLAddClientController">
+   <children>
+      <TextField fx:id="txtName" layoutX="141.0" layoutY="86.0" promptText="Client Name" />
+      <Button fx:id="btnAddClient" layoutX="133.0" layoutY="277.0" mnemonicParsing="false" onAction="#add" />
+      <Button fx:id="btnCancel" layoutX="282.0" layoutY="277.0" mnemonicParsing="false" onAction="#close" />
+      <Label fx:id="lblError" layoutX="201.0" layoutY="235.0" textFill="RED" />
+   </children>
+</AnchorPane>
