@@ -13,6 +13,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -33,9 +36,33 @@ public class HttpRequests {
     private static final String VERSION_NUM = "/v1";
     private static final String BASE_URL = FXMLLoginController.getAddress()+VERSION_NUM;
     private static User user;
-    
+    private static Cache cache;
     public String getUsername(){
         return user.getUsername();
+    }
+    
+    public void initCache(){
+        try {
+            cache = new Cache(getUsers(), getClients());
+        } catch (IOException ex) {
+            Logger.getLogger(HttpRequests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void refresh(){
+        try {
+            cache.refresh(getUsers(), getClients());
+        } catch (IOException ex) {
+            Logger.getLogger(HttpRequests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public ObservableList<User> getUsersCache(){
+        return cache.getUsers();
+    }
+    
+    public ObservableList<Client> getClientsCache(){
+        return cache.getClients();
     }
     
     public boolean login(User u) throws IOException{
@@ -59,11 +86,12 @@ public class HttpRequests {
         boolean log = login.equals("Success");
         if(log){
             user = new User(u.getUsername(), u.getPassword());
+            initCache();
         }
         return log;
     }
     
-    private String basicAuth(){
+    private static String basicAuth(){
         String ucode = user.getUsername()+":"+user.getPassword();
         String coded = new String(Base64.getEncoder().encode(ucode.getBytes()));
         return coded;
@@ -89,7 +117,7 @@ public class HttpRequests {
         return jobs;
     }
     
-    public ArrayList<User> getUsers() throws IOException{
+    public static ArrayList<User> getUsers() throws IOException{
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(BASE_URL+"/users");
         get.setHeader("Authorization", "Basic "+basicAuth());
@@ -124,22 +152,26 @@ public class HttpRequests {
 
         post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         HttpResponse response = client.execute(post);
-        
+        if(response.getStatusLine().getStatusCode() == 201){
+            cache.addUser(u);
+        }
         return response.getStatusLine().getStatusCode();
     }
 
-    public int deleteUser(String a) throws IOException {
+    public int deleteUser(User u) throws IOException {
         HttpClient client = new DefaultHttpClient();
-        HttpDelete delete = new HttpDelete(BASE_URL+"/users/"+a);
+        HttpDelete delete = new HttpDelete(BASE_URL+"/users/"+u.getUsername());
         delete.setHeader("Content-Type", "application/x-www-form-urlencoded");
         delete.setHeader("Authorization", "Basic "+basicAuth());
         
         HttpResponse response = client.execute(delete);
-       
+        if(response.getStatusLine().getStatusCode() == 200){
+             cache.removeUser(u);
+         }
         return response.getStatusLine().getStatusCode();
     }
 
-    public ArrayList<Client> getClients() throws IOException {
+    public static ArrayList<Client> getClients() throws IOException {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(BASE_URL+"/clients");
         get.setHeader("Authorization", "Basic "+basicAuth());
@@ -197,7 +229,7 @@ public class HttpRequests {
         return act;
     }
 
-    public String[] addClient(String c) throws IOException {
+    public int addClient(String c) throws IOException {
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(BASE_URL+"/clients");
         post.setHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -210,22 +242,26 @@ public class HttpRequests {
         post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         HttpResponse response = client.execute(post);
         
-        String[] out = new String[2];
-        out[0] = Integer.toString(response.getStatusLine().getStatusCode());
-        out[1] = response.getFirstHeader("Location").getValue();
+        if(response.getStatusLine().getStatusCode() == 201){
+            String id = response.getFirstHeader("Location").getValue();
+            id = id.substring(id.lastIndexOf("/")+1);
+            cache.addClient(new Client(id, c));
+        }
         
-        return out;
+        return response.getStatusLine().getStatusCode();
     }
 
-    public int deleteClient(String a) throws IOException{
+    public int deleteClient(Client c) throws IOException{
         HttpClient client = new DefaultHttpClient();
-        HttpDelete delete = new HttpDelete(BASE_URL+"/clients/"+a);
+        HttpDelete delete = new HttpDelete(BASE_URL+"/clients/"+c.getId());
 
         delete.setHeader("Content-Type", "application/x-www-form-urlencoded");
         delete.setHeader("Authorization", "Basic "+basicAuth());
 
         HttpResponse response = client.execute(delete);
-
+        if(response.getStatusLine().getStatusCode() == 200){
+            cache.removeClient(c);
+        }
         return response.getStatusLine().getStatusCode();
     }
     

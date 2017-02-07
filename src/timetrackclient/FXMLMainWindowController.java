@@ -112,7 +112,6 @@ public class FXMLMainWindowController implements Initializable {
     //Clients tab
     @FXML
     private ListView clients;
-    private static ObservableList<Client> clientnames = FXCollections.observableArrayList();
     @FXML
     private Button btnAddClient;
     @FXML
@@ -123,7 +122,6 @@ public class FXMLMainWindowController implements Initializable {
     //Users tab
     @FXML
     private ListView users;
-    private static ObservableList<String> usernames = FXCollections.observableArrayList();
     @FXML
     private Button btnAddUser;
     @FXML
@@ -171,12 +169,12 @@ public class FXMLMainWindowController implements Initializable {
     
     @FXML
     private void deleteUser(){
-        String a = (String)users.getSelectionModel().getSelectedItem();
+        User a = (User)users.getSelectionModel().getSelectedItem();
         try {
             int status = hr.deleteUser(a);
-            if(status == 200){
-                usernames.remove(a);
-            }
+//            if(status == 200){
+//                hr.removeUserCache(a);
+//            }
             // TODO else with an error
         } catch (IOException ex) {
             System.out.println("well that didnt work");
@@ -198,10 +196,10 @@ public class FXMLMainWindowController implements Initializable {
     private void deleteClient() throws IOException{
         Client a = (Client)clients.getSelectionModel().getSelectedItem();
         try {
-            int status = hr.deleteClient(a.getId());
-            if(status == 200){
-                clientnames.remove(a);
-            }
+            int status = hr.deleteClient(a);
+//            if(status == 200){
+//                clientnames.remove(a);
+//            }
             // TODO else with an error
         } catch (IOException ex) {
             System.out.println("well that didnt work");
@@ -382,7 +380,7 @@ public class FXMLMainWindowController implements Initializable {
                                 }
                                 case "User":{
                                     cbFilter.getItems().clear();
-                                    cbFilter.getItems().addAll(usernames);
+                                    cbFilter.getItems().addAll(hr.getUsersCache());
                                     cbFilter.getSelectionModel().selectFirst();
                                     break;
                                 }
@@ -402,29 +400,11 @@ public class FXMLMainWindowController implements Initializable {
             
             
             //client inti
-            clients.setItems(clientnames);
-            
-            try {
-                ArrayList<Client> clientlist = hr.getClients();
-                clientlist.forEach((c) -> {
-                    clientnames.add(new Client(c.getId(), c.getName()));
-                });
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            clients.setItems(hr.getClientsCache());
             
             //user init
-            users.setItems(usernames);
+            users.setItems(hr.getUsersCache());
             
-            try {
-                ArrayList<User> userslist = hr.getUsers();
-                userslist.forEach((u) -> {
-                    usernames.add(u.getUsername());
-                });
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-            }
             
             //settings init
             sm = new SettingsManger();
@@ -546,16 +526,6 @@ public class FXMLMainWindowController implements Initializable {
         apane.setMaxWidth(150);
         p.getChildren().add(apane);
         p.setBottomAnchor(apane, 5.0);
-    }
-    
-    //this is just a visuale change the actual adding happens in the other controller
-    public static void addUserData(String x){
-        usernames.add(x);
-    }
-    
-    //this is just a visuale change the actual adding happens in the other controller
-    public static void addClientData(Client x){
-        clientnames.add(x);
     }
     
     public static void addJobData(Job x){

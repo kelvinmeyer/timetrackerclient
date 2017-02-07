@@ -58,7 +58,6 @@ public class FXMLAddUserController implements Initializable {
             int status = hr.addUser(temp);
             switch(status){
                 case 201:{ //no problem
-                    FXMLMainWindowController.addUserData(temp.getUsername());
                     Stage stage = (Stage)btnCancel.getScene().getWindow();
                     stage.close();
                     break;

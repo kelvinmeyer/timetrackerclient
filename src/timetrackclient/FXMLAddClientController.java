@@ -46,11 +46,9 @@ public class FXMLAddClientController implements Initializable {
             String temp = txtName.getText();
             //http add here so i can handel any errors i.e 201, 400, 401
             HttpRequests hr = new HttpRequests();
-            String[] ret = hr.addClient(temp);
-            int status = Integer.parseInt(ret[0]);
+            int status = hr.addClient(temp);
             switch(status){
                 case 201:{ //no problem
-                    FXMLMainWindowController.addClientData(new Client(getID(ret[1]), temp));
                     Stage stage = (Stage)btnCancel.getScene().getWindow();
                     stage.close();
                     break;

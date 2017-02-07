@@ -44,7 +44,6 @@ public class FXMLAddJobController implements Initializable {
     private TextArea txtaDescription;
     @FXML
     private ComboBox cbClients;
-    private ObservableList<Client> clientsList; 
     @FXML
     private TextField txtInvNum;
     @FXML 
@@ -94,12 +93,8 @@ public class FXMLAddJobController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // populate the comobo box
         HttpRequests hr = new HttpRequests();
-        try {
-            clientsList = FXCollections.observableArrayList(hr.getClients());
-            cbClients.setItems(clientsList);
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLAddJobController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cbClients.setItems(hr.getClientsCache());
+       
         
         
         // adding images
