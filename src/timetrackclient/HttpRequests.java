@@ -43,7 +43,7 @@ public class HttpRequests {
     
     public void initCache(){
         try {
-            cache = new Cache(getUsers(), getClients());
+            cache = new Cache(getUsers(), getClients(), getActivJobs(),getActivitites());
         } catch (IOException ex) {
             Logger.getLogger(HttpRequests.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -51,7 +51,7 @@ public class HttpRequests {
     
     public void refresh(){
         try {
-            cache.refresh(getUsers(), getClients());
+            cache.refresh(getUsers(), getClients(), getActivJobs(),getActivitites());
         } catch (IOException ex) {
             Logger.getLogger(HttpRequests.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,6 +63,14 @@ public class HttpRequests {
     
     public ObservableList<Client> getClientsCache(){
         return cache.getClients();
+    }
+    
+    public ObservableList<Activity> getActivitysCache(){
+        return cache.getActivities();
+    }
+    
+    public ArrayList<Job> getJobsCache(){
+        return cache.getJobs();
     }
     
     public boolean login(User u) throws IOException{
@@ -91,7 +99,7 @@ public class HttpRequests {
         return log;
     }
     
-    private static String basicAuth(){
+    private String basicAuth(){
         String ucode = user.getUsername()+":"+user.getPassword();
         String coded = new String(Base64.getEncoder().encode(ucode.getBytes()));
         return coded;
@@ -117,7 +125,7 @@ public class HttpRequests {
         return jobs;
     }
     
-    public static ArrayList<User> getUsers() throws IOException{
+    public ArrayList<User> getUsers() throws IOException{
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(BASE_URL+"/users");
         get.setHeader("Authorization", "Basic "+basicAuth());
@@ -171,7 +179,7 @@ public class HttpRequests {
         return response.getStatusLine().getStatusCode();
     }
 
-    public static ArrayList<Client> getClients() throws IOException {
+    public ArrayList<Client> getClients() throws IOException {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(BASE_URL+"/clients");
         get.setHeader("Authorization", "Basic "+basicAuth());

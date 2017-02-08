@@ -39,7 +39,7 @@ public class Job {
     }
 
     public String getTitle() {
-        return title;
+        return title.equals("null") ? "": title;
     }
 
     public Client getClient() {
@@ -59,11 +59,11 @@ public class Job {
     }
 
     public String getDescription() {
-        return description;
+        return description.equals("null") ? "": description;
     }
 
     public String getInvNum() {
-        return invNum;
+        return invNum.equals("null") ? "": invNum;
     }
 
     public String getJobId() {
@@ -92,6 +92,6 @@ public class Job {
     
     @Override
     public String toString(){
-        return title+":"+client.getName();
+        return getTitle()+" : "+client.getName();
     }
 }

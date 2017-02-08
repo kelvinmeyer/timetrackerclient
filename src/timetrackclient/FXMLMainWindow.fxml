@@ -24,6 +24,7 @@
                            </tooltip></Button>
                         <Separator />
                         <Button fx:id="btnReOpen" mnemonicParsing="false" onAction="#reopenJob" />
+                        <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#refresh" />
                     </items>
                   </ToolBar>
                   <FlowPane fx:id="fp" layoutX="50.0" prefHeight="200.0" prefWidth="552.0" style="-fx-background-color: #c1c1c1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

@@ -14,8 +14,6 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -74,7 +72,6 @@ public class FXMLAddJobController implements Initializable {
             int status = Integer.parseInt(ret[0]);
             switch(status){
                 case 201:{ //no problem
-                    FXMLMainWindowController.addJobData(new Job(getID(ret[1]), title, client, stat, date, desr, inv));
                     Stage stage = (Stage)btnCancel.getScene().getWindow();
                     stage.close();
                     break;

@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 
 import java.time.LocalDate;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,6 +31,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +61,7 @@ import javafx.scene.layout.Priority;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.swing.JOptionPane;
 
@@ -81,8 +82,9 @@ public class FXMLMainWindowController implements Initializable {
     private FlowPane fp;
     @FXML
     private Button btnAddJob;
+    @FXML
+    private Button btnRefresh;
     private static String focusJobId;
-    private static ArrayList<Job> currjobs;
     @FXML
     private Button btnReOpen;
     
@@ -163,7 +165,9 @@ public class FXMLMainWindowController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        //main window controller send the data
+        stage.setOnHiding((WindowEvent we) -> {
+            refresh();
+        });   
     }
     
     
@@ -344,23 +348,36 @@ public class FXMLMainWindowController implements Initializable {
         Parent root;
         root = FXMLLoader.load(getClass().getResource("FXMLReactivate.fxml"));
         Stage stage = new Stage();
-        stage.setTitle("Add Client");
+        stage.setTitle("Activate job");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        stage.setOnHiding((WindowEvent we) -> {
+            refresh();
+        });     
+    }
+    
+    @FXML
+    private void refresh(){
+        hr.refresh();
+        refreshJobsView();
+    }
+    
+    public void refreshJobsView(){
+        fp.getChildren().clear();
+        hr.getJobsCache().forEach((j) -> {
+            addCard(fp, j);
+        });
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        hr = new HttpRequests();
         try {
             //job init
             fp.setHgap(10);
             fp.setVgap(10);
-            hr = new HttpRequests();
-            currjobs = hr.getActivJobs();
-            currjobs.forEach( (j) -> {
-                addCard(fp, j);
-            });
+            refreshJobsView();
             
             //times init
             HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -414,14 +431,16 @@ public class FXMLMainWindowController implements Initializable {
             lblVersion.setText("Version: "+Timetrackclient.VERSION_NUM);
             
             //button icons
-            Image imgAdd    = new Image(getClass().getResourceAsStream("/icons/add.png"));
-            Image imgDelete = new Image(getClass().getResourceAsStream("/icons/delete.png"));
-            Image imgImport = new Image(getClass().getResourceAsStream("/icons/import.png"));
-            Image imgSearch = new Image(getClass().getResourceAsStream("/icons/search.png"));
-            Image imgReopen = new Image(getClass().getResourceAsStream("/icons/reopen.png"));
+            Image imgAdd     = new Image(getClass().getResourceAsStream("/icons/add.png"));
+            Image imgDelete  = new Image(getClass().getResourceAsStream("/icons/delete.png"));
+            Image imgImport  = new Image(getClass().getResourceAsStream("/icons/import.png"));
+            Image imgSearch  = new Image(getClass().getResourceAsStream("/icons/search.png"));
+            Image imgReopen  = new Image(getClass().getResourceAsStream("/icons/reopen.png"));
+            Image imgRefresh = new Image(getClass().getResourceAsStream("/icons/refresh.png"));
             
             btnAddJob.setGraphic(new ImageView(imgAdd));
             btnReOpen.setGraphic(new ImageView(imgReopen));
+            btnRefresh.setGraphic(new ImageView(imgRefresh));
             
             btnSearch.setGraphic(new ImageView(imgSearch));
             
@@ -440,8 +459,10 @@ public class FXMLMainWindowController implements Initializable {
         AnchorPane p = new AnchorPane();
         p.setMinSize(150, 150);
         p.setMaxSize(150, 150);
+        
         p.getStyleClass().add("card");
         p.setId(j.getJobId());
+        
         FlowPane f = new FlowPane(Orientation.VERTICAL);
         
         addAnchorPaneLabel(f, j.getTitle(), j.getClient().getName());
@@ -458,6 +479,8 @@ public class FXMLMainWindowController implements Initializable {
         AnchorPane apane = new AnchorPane();
         Label left = new Label(l1);
         Label right = new Label(l2);
+        right.setMaxWidth(73);
+        left.setMaxWidth(73);
         apane.getChildren().addAll(left , right);
         apane.setTopAnchor(left, 5.0);
         apane.setTopAnchor(right, 5.0);
@@ -515,6 +538,7 @@ public class FXMLMainWindowController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            refresh();
         });
         
         apane.getChildren().addAll(left , right);
@@ -526,10 +550,6 @@ public class FXMLMainWindowController implements Initializable {
         apane.setMaxWidth(150);
         p.getChildren().add(apane);
         p.setBottomAnchor(apane, 5.0);
-    }
-    
-    public static void addJobData(Job x){
-        currjobs.add(x);
     }
     
     public static String getId(){

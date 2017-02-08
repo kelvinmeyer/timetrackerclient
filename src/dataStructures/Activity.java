@@ -63,7 +63,7 @@ public class Activity {
     }
 
     public String getComment() {
-        return comment.get();
+        return comment.get().equals("null") ? "" : comment.get();
     }
 
     public String getUsername() {
