@@ -55,10 +55,11 @@
                   <TableView fx:id="timesTable" layoutY="40.0" prefHeight="330.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
                     <columns>
                       <TableColumn fx:id="clmDate" prefWidth="75.0" text="Date" />
-                      <TableColumn fx:id="clmTime" prefWidth="75.0" text="Time" />
                         <TableColumn fx:id="clmUser" prefWidth="75.0" text="User" />
-                        <TableColumn fx:id="clmJob" prefWidth="75.0" text="Job" />
-                        <TableColumn fx:id="clmComment" maxWidth="1.7976931348623157E308" prefWidth="299.0" text="Comment" />
+                      <TableColumn fx:id="clmTime" prefWidth="75.0" text="Time" />
+                        <TableColumn fx:id="clmStartTime" prefWidth="69.0" text="Start Time" />
+                        <TableColumn fx:id="clmEndTime" prefWidth="92.0" text="End Time" />
+                        <TableColumn fx:id="clmComment" maxWidth="1.7976931348623157E308" prefWidth="213.0" text="Comment" />
                     </columns>
                   </TableView>
                </children></AnchorPane>

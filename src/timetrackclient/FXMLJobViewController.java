@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,8 @@ public class FXMLJobViewController implements Initializable {
     @FXML
     private Button btnEdit;
     @FXML
+    private Button btnDelete;
+    @FXML
     private Label lblTitle;
     @FXML
     private Label lblClient;
@@ -99,6 +102,8 @@ public class FXMLJobViewController implements Initializable {
     @FXML
     private ChoiceBox cbFilter;
     private static ObservableList<String> usernames = FXCollections.observableArrayList();
+    @FXML
+    private Label lblTime;
     
     @FXML
     private void start(){
@@ -152,6 +157,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitiesByTime(Long.toString(d.getTime()), Long.toString(System.currentTimeMillis())));
+                        lblTime.setText("Time: "+calcTime()+" mins");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -177,6 +183,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitiesByTime(Long.toString(d.getTime()), Long.toString(System.currentTimeMillis())));
+                        lblTime.setText("Time: "+calcTime()+" mins");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -193,6 +200,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitiesByTime(Long.toString(d.getTime()), Long.toString(System.currentTimeMillis())));
+                        lblTime.setText("Time: "+calcTime()+" mins");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -202,6 +210,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitites());
+                        lblTime.setText("Time: "+calcTime()+" mins");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -229,6 +238,18 @@ public class FXMLJobViewController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    @FXML
+    public void deleteTime() {
+        Activity a = timesTable.getSelectionModel().getSelectedItem();
+        if(a != null){
+            try {
+                if (hr.deleteActivity(a) == 200) {timesList.remove(a);}
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLJobViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     @Override
@@ -306,16 +327,28 @@ public class FXMLJobViewController implements Initializable {
         Image imgPause = new Image(getClass().getResourceAsStream("/icons/pause.png"));
         Image imgEdit = new Image(getClass().getResourceAsStream("/icons/edit.png")); 
         Image imgSearch = new Image(getClass().getResourceAsStream("/icons/search.png"));
+        Image imgDelete = new Image(getClass().getResourceAsStream("/icons/delete.png"));
         
         btnStart.setGraphic(new ImageView(imgStart));
         btnPause.setGraphic(new ImageView(imgPause));
         btnEdit.setGraphic(new ImageView(imgEdit));
         btnSearch.setGraphic(new ImageView(imgSearch));
         btnPause.setDisable(true);
+        btnDelete.setGraphic(new ImageView(imgDelete));
     }
     
     public static Job getjob(){
         return j;
+    }
+    
+    private int calcTime(){
+        int time = 0;
+        Iterator i = timesList.iterator();
+        while(i.hasNext()){
+           Activity a = (Activity)(i.next());
+           time += a.getTimeInt();
+        }
+        return time;
     }
     
 }

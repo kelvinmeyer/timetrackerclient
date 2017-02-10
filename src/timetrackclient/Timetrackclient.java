@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  */
 public class Timetrackclient extends Application {
     
-    public static final String VERSION_NUM = "0.0.1";
+    public static final String VERSION_NUM = "0.0.3";
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin.fxml"));

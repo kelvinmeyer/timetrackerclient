@@ -31,7 +31,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -106,7 +105,9 @@ public class FXMLMainWindowController implements Initializable {
     @FXML
     private TableColumn clmUser;
     @FXML
-    private TableColumn clmJob;
+    private TableColumn clmStartTime;
+    @FXML
+    private TableColumn clmEndTime;
     @FXML
     private TableColumn clmComment;
     private ObservableList<Activity> timesList;
@@ -408,10 +409,11 @@ public class FXMLMainWindowController implements Initializable {
             cbFilter.getItems().addAll("Today", "This Month", "This Year", "All Time");
             cbFilter.getSelectionModel().selectFirst();
             timesList = FXCollections.observableArrayList(hr.getActivitites());
-            clmDate.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
             clmTime.setCellValueFactory(new PropertyValueFactory<>("time"));
             clmUser.setCellValueFactory(new PropertyValueFactory<>("username"));
-            clmJob.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            clmStartTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            clmEndTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
             clmComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
             timesTable.setItems(timesList);
             

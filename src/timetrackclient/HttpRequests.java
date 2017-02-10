@@ -465,5 +465,18 @@ public class HttpRequests {
 
         return jobs;
     }
+
+    public int deleteActivity(Activity a) throws IOException{
+        HttpClient client = new DefaultHttpClient();
+        HttpDelete delete = new HttpDelete(BASE_URL+"/activities/"+a.getID());
+        delete.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        delete.setHeader("Authorization", "Basic "+basicAuth());
+        
+        HttpResponse response = client.execute(delete);
+        if(response.getStatusLine().getStatusCode() == 200){
+             cache.removeActivity(a);
+         }
+        return response.getStatusLine().getStatusCode();
+    }
     
 }

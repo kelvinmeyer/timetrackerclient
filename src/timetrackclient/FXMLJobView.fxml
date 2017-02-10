@@ -15,6 +15,7 @@
             <Button fx:id="btnPause" mnemonicParsing="false" />
             <Separator />
             <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editWindow" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteTime" />
         </items>
       </ToolBar>
       <TableView fx:id="timesTable" layoutX="50.0" layoutY="200.0" prefHeight="200.0" prefWidth="455.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0">
@@ -60,6 +61,7 @@
                </font>
             </Label>
             <TextArea fx:id="txtaDescr" editable="false" layoutX="14.0" layoutY="69.0" prefHeight="79.0" prefWidth="271.0" />
+            <Label fx:id="lblTime" layoutX="342.0" layoutY="74.0" prefHeight="17.0" prefWidth="101.0" />
          </children>
       </AnchorPane>
    </children>

@@ -38,6 +38,7 @@ public class FXMLEditJobController implements Initializable {
     @FXML
     private TextField txtInvNum;
     
+    
     private Job job;
     
     
@@ -74,7 +75,7 @@ public class FXMLEditJobController implements Initializable {
         
         Image imgEdit = new Image(getClass().getResourceAsStream("/icons/edit.png"));
         Image imgCancel = new Image(getClass().getResourceAsStream("/icons/cancel.png"));
-        
+       
         btnEdit.setGraphic(new ImageView(imgEdit));
         btnCancel.setGraphic(new ImageView(imgCancel));
     }    

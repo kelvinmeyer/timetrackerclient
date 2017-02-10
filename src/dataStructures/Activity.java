@@ -15,8 +15,8 @@ public class Activity {
     private SimpleStringProperty comment;
     private SimpleStringProperty username;
     
-    private final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-    private final SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm a");
+    private final SimpleDateFormat formatDate = new SimpleDateFormat("d/M/yyyy");
+    private final SimpleDateFormat formatTime = new SimpleDateFormat("h:mm a");
 
     public Activity(String startTime, String endTime, String time, String actId, String comment, String user) {
         this.startTime = new SimpleStringProperty(startTime);
@@ -26,7 +26,11 @@ public class Activity {
         this.comment = new SimpleStringProperty(comment);
         this.username = new SimpleStringProperty(user);
     }
-
+    
+    public String getID(){
+        return actId;
+    }
+    
     public String getDate(){
         long st = Long.parseLong(startTime.get());
         return formatDate.format(st);
