@@ -73,7 +73,7 @@ public class Job {
     public String getJobTime() {
         int time = 0;
         for(Activity act: activities){
-            time+=act.getTimeInt();
+            time+=act.calcTime();
         }
         return (time>60)? time/60+"h "+time%60+"m":time+"m";
     }

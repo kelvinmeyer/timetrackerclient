@@ -231,7 +231,7 @@ public class HttpRequests {
         JsonArrayParser jap = new JsonArrayParser(line);
         while (jap.hasNext()) {
             JsonParser jp = jap.next();
-            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User")));
+            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User"), Integer.parseInt(jp.getVal("TimeAdj"))));
         }
         
         return act;
@@ -288,7 +288,7 @@ public class HttpRequests {
         JsonArrayParser jap = new JsonArrayParser(line);
         while (jap.hasNext()) {
             JsonParser jp = jap.next();
-            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User")));
+            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User"), Integer.parseInt(jp.getVal("TimeAdj"))));
         }
         
         return act;
@@ -337,7 +337,7 @@ public class HttpRequests {
         return out;
     }
 
-    public void addActivity(Activity a, String jid) throws IOException {
+    public String addActivity(Activity a, String jid) throws IOException {
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(BASE_URL+"/activities");
         post.setHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -351,10 +351,13 @@ public class HttpRequests {
         nameValuePairs.add(new BasicNameValuePair("StartTime", a.getStartTimeNum()));
         nameValuePairs.add(new BasicNameValuePair("EndTime", a.getEndTimeNum()));
         nameValuePairs.add(new BasicNameValuePair("Time", a.getTimeNum()));
+        nameValuePairs.add(new BasicNameValuePair("TimeAdj", a.getTimeAdjString()));
         if (!a.getComment().isEmpty()){nameValuePairs.add(new BasicNameValuePair("Comment", a.getComment()));}
 
         post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         HttpResponse response = client.execute(post);
+        
+        return response.getFirstHeader("Location").getValue();
     }
 
     public ArrayList<Activity> getActivitiesByUser(String username) throws IOException{
@@ -372,7 +375,7 @@ public class HttpRequests {
         JsonArrayParser jap = new JsonArrayParser(line);
         while (jap.hasNext()) {
             JsonParser jp = jap.next();
-            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User")));
+            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User"), Integer.parseInt(jp.getVal("TimeAdj"))));
         }
         
         return act;
@@ -393,7 +396,7 @@ public class HttpRequests {
         JsonArrayParser jap = new JsonArrayParser(line);
         while (jap.hasNext()) {
             JsonParser jp = jap.next();
-            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User")));
+            act.add(new Activity(jp.getVal("StartTime"),jp.getVal("EndTime"), jp.getVal("Time"), jp.getVal("ActivityID"), jp.getVal("Comment"), jp.getVal("User"), Integer.parseInt(jp.getVal("TimeAdj"))));
         }
         
         return act;
@@ -476,6 +479,21 @@ public class HttpRequests {
         if(response.getStatusLine().getStatusCode() == 200){
              cache.removeActivity(a);
          }
+        return response.getStatusLine().getStatusCode();
+    }
+    
+    public int updateActivity(Activity a) throws IOException {
+        HttpClient client = new DefaultHttpClient();
+        HttpPatch patch = new HttpPatch(BASE_URL+"/activities/"+a.getID());
+        patch.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        patch.setHeader("Authorization", "Basic "+basicAuth());
+        
+        List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+        nameValuePairs.add(new BasicNameValuePair("Comment", a.getComment()));
+        nameValuePairs.add(new BasicNameValuePair("TimeAdj", a.getTimeAdjString())); 
+       
+        patch.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+        HttpResponse response = client.execute(patch);
         return response.getStatusLine().getStatusCode();
     }
     

@@ -12,9 +12,10 @@
       <ToolBar orientation="VERTICAL" prefHeight="400.0" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <Button fx:id="btnStart" mnemonicParsing="false" onAction="#start" />
-            <Button fx:id="btnPause" mnemonicParsing="false" />
             <Separator />
             <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editWindow" />
+            <Separator />
+            <Button fx:id="btnEditActivity" mnemonicParsing="false" onAction="#editActivity" />
             <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteTime" />
         </items>
       </ToolBar>
@@ -60,8 +61,8 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtaDescr" editable="false" layoutX="14.0" layoutY="69.0" prefHeight="79.0" prefWidth="271.0" />
-            <Label fx:id="lblTime" layoutX="342.0" layoutY="74.0" prefHeight="17.0" prefWidth="101.0" />
+            <TextArea fx:id="txtaDescr" editable="false" layoutX="14.0" layoutY="69.0" prefHeight="79.0" prefWidth="207.0" />
+            <TextArea fx:id="txtaTime" layoutX="228.0" layoutY="70.0" prefHeight="79.0" prefWidth="207.0" />
          </children>
       </AnchorPane>
    </children>

@@ -41,7 +41,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 
 /**
  * FXML Controller class
@@ -53,6 +52,7 @@ public class FXMLJobViewController implements Initializable {
     private String id;
     private boolean tracking = false;
     private Job job;
+    private static Activity a;
     private static Job j;
     private long st;
     private HttpRequests hr;
@@ -62,8 +62,6 @@ public class FXMLJobViewController implements Initializable {
     
     @FXML
     private Button btnStart;
-    @FXML
-    private Button btnPause;
     @FXML
     private Button btnEdit;
     @FXML
@@ -103,19 +101,19 @@ public class FXMLJobViewController implements Initializable {
     private ChoiceBox cbFilter;
     private static ObservableList<String> usernames = FXCollections.observableArrayList();
     @FXML
-    private Label lblTime;
+    private TextArea txtaTime;
+    @FXML
+    private Button btnEditActivity;
     
     @FXML
-    private void start(){
+    private void start() throws IOException{
         long unixTime = System.currentTimeMillis();
         if(!tracking){//start timing
-            btnPause.setDisable(false);
             btnStart.setGraphic(new ImageView(imgStop));
             tracking = true;
             st = unixTime;
         } else { // end timing and sumbit activity
             btnStart.setGraphic(new ImageView(imgStart));
-            btnPause.setDisable(true);
             tracking = false;
             long et = unixTime;
             int time = (int) (et-st)/1000;//convert to seconds
@@ -128,13 +126,11 @@ public class FXMLJobViewController implements Initializable {
                 time++;
             }
             //submit activity
-            
             // get comment
-            String c = JOptionPane.showInputDialog("Add a comment to the time");
-            
-            Activity a = new Activity(Long.toString(st), Long.toString(et), Integer.toString(time), "id", c, hr.getUsername());
+            Activity a = new Activity(Long.toString(st), Long.toString(et), Integer.toString(time), "id", "", hr.getUsername(), 0);
             try {
-                hr.addActivity(a, job.getJobId());
+                String location = hr.addActivity(a, job.getJobId());
+                a.setID(location.substring(location.lastIndexOf("/")+1));
             } catch (IOException ex) {
                 Logger.getLogger(FXMLJobViewController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -157,7 +153,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitiesByTime(Long.toString(d.getTime()), Long.toString(System.currentTimeMillis())));
-                        lblTime.setText("Time: "+calcTime()+" mins");
+                        txtaTime.setText(timeString());
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -183,7 +179,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitiesByTime(Long.toString(d.getTime()), Long.toString(System.currentTimeMillis())));
-                        lblTime.setText("Time: "+calcTime()+" mins");
+                        txtaTime.setText(timeString());
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -200,7 +196,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitiesByTime(Long.toString(d.getTime()), Long.toString(System.currentTimeMillis())));
-                        lblTime.setText("Time: "+calcTime()+" mins");
+                        txtaTime.setText(timeString());
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -210,7 +206,7 @@ public class FXMLJobViewController implements Initializable {
                     try {
                         timesList.clear();
                         timesList.addAll(hr.getActivitites());
-                        lblTime.setText("Time: "+calcTime()+" mins");
+                        txtaTime.setText(timeString());
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -222,6 +218,7 @@ public class FXMLJobViewController implements Initializable {
             try {
                 timesList.clear();
                 timesList.addAll(hr.getActivitiesByUser(filter));
+                txtaTime.setText(timeString());
             } catch (IOException ex) {
                 Logger.getLogger(FXMLMainWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -238,6 +235,20 @@ public class FXMLJobViewController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    @FXML
+    public void editActivity() throws IOException{
+        a = (Activity)timesTable.getSelectionModel().getSelectedItem();
+        if(!a.equals(null)){//put something in here so that doesnt throw an error
+            Parent root = FXMLLoader.load(getClass().getResource("FXMLActivityEdit.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Edit Activity");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        
     }
     
     @FXML
@@ -324,31 +335,69 @@ public class FXMLJobViewController implements Initializable {
         
         imgStart = new Image(getClass().getResourceAsStream("/icons/start.png"));
         imgStop = new Image(getClass().getResourceAsStream("/icons/stop.png"));
-        Image imgPause = new Image(getClass().getResourceAsStream("/icons/pause.png"));
         Image imgEdit = new Image(getClass().getResourceAsStream("/icons/edit.png")); 
         Image imgSearch = new Image(getClass().getResourceAsStream("/icons/search.png"));
         Image imgDelete = new Image(getClass().getResourceAsStream("/icons/delete.png"));
+        Image imgTimeEdit = new Image(getClass().getResourceAsStream("/icons/time_adjust.png"));
         
         btnStart.setGraphic(new ImageView(imgStart));
-        btnPause.setGraphic(new ImageView(imgPause));
         btnEdit.setGraphic(new ImageView(imgEdit));
         btnSearch.setGraphic(new ImageView(imgSearch));
-        btnPause.setDisable(true);
         btnDelete.setGraphic(new ImageView(imgDelete));
+        btnEditActivity.setGraphic(new ImageView(imgTimeEdit));
+        try {
+            search();
+        } catch (ParseException ex) {
+            Logger.getLogger(FXMLJobViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static Job getjob(){
         return j;
     }
     
+     public static Activity getCurrentActivity(){
+        return a;
+    }
+    
+    private String timeString() throws IOException{
+        String out[] = new String[usernames.size()+1];
+        out[0] = "Time: "+calcTime()+" mins";
+        int index = 1;
+        for (String u : usernames) {
+            out[index]=u+": "+calcTimeUser(u)+" mins";
+            index++;
+        }
+        return arrayToString(out);
+    }
+     
     private int calcTime(){
         int time = 0;
         Iterator i = timesList.iterator();
         while(i.hasNext()){
            Activity a = (Activity)(i.next());
-           time += a.getTimeInt();
+           time += a.calcTime();
         }
         return time;
     }
     
+    private int calcTimeUser(String username){
+        int time = 0;
+        Iterator i = timesList.iterator();
+        while(i.hasNext()){
+           Activity act = (Activity)(i.next());
+           if(act.getUsername().equals(username)){
+            time += act.calcTime();
+           }
+        }
+        return time;
+    }
+    
+    private String arrayToString(String[] s){
+        String out = "";
+        for(String b: s){
+            out += b+"\n";
+        }
+        return out;
+    }
 }
