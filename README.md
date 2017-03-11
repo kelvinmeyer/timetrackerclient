@@ -1,9 +1,9 @@
 # timetrackerclient
 The Java Client for my time tracker server.
 
-The client is made useing java and javaFX for the GUI.
-da
-## edads
+The client is made useing java and javaFX for the GUI. The server is located [here](https://github.com/kelvinmeyer/time-tracker-server)
+
+## Jobs
 
 ![alt text](https://github.com/kelvinmeyer/timetrackerclient/blob/master/readme%20img/jobs.PNG "Jobs Window")
 
