@@ -20,4 +20,5 @@ The clients window manages all the clients that are present in the system.
 
 ## Users
 The users window manages the Users.
+
 ![alt text](https://github.com/kelvinmeyer/timetrackerclient/blob/master/readme%20img/Users.PNG "Users Window")
